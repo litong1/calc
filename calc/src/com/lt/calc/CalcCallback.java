@@ -15,4 +15,8 @@ public interface CalcCallback {
 	 * 显示计算结果
 	 */
 	void showResult(String str);
+	/**
+	 * 异常
+	 */
+	void error();
 }

@@ -1,5 +1,6 @@
 package com.lt.calc;
 
+import java.util.Observable;
 import java.util.Stack;
 
 /**
@@ -7,17 +8,25 @@ import java.util.Stack;
  * @author litong
  *
  */
-public class Calc {
+public class CalcModel extends Observable{
 
 	//逆波兰表达式
 	private Stack<String> stack;
 	//操作数和运算符
-	public Calc() {
+	CalcCallback callback;
+	public CalcModel() {
 		stack = new Stack<>();
 	}
-	
+	public void setCallback(CalcFrame view) {
+		this.callback = view;
+		
+	}
 	public void push(String e){
-		stack.push(e);		
+		stack.push(e);
+		//数据改变了，发送给观察者
+		setChanged();
+		notifyObservers(getResult());
+		//System.out.println(stack.toString());
 	}
 	public String getResult(){
 		//System.out.println(stack.toString());
@@ -39,7 +48,10 @@ public class Calc {
 		return stack.peek();	
 	}
 	public String pop(){
+		
+		if(stack!=null)
 		return stack.pop();
+		return null;
 	}
 
 	public int getStackSize() {
@@ -48,5 +60,7 @@ public class Calc {
 	public String get(int index){
 		return stack.get(index);
 	}
+
+	
 		
 }
